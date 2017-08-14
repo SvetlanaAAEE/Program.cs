@@ -1,0 +1,13 @@
+        static void NewUser(string[] arr)
+        {
+            string[] arrPlus = new string[arr.Length + 1];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arrPlus[i] = arr[i];
+            }
+            Console.WriteLine("\nAdd your account\n");
+            arrPlus[arr.Length] = Console.ReadLine();
+            Console.WriteLine("\nYour account was successfully added/n");
+            Console.WriteLine();
+           
+        }
