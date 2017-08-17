@@ -1,0 +1,54 @@
+ public static void AdminMenu(ref string[,] arr)
+
+        {
+            Console.WriteLine("\nYou can chois one of the following provided operation: \n");
+            Console.WriteLine("1.vies the list of accounts, balance of money on the ccount and the status of blocked if the user is locked");
+            Console.WriteLine("2. blocked users from login in system");
+            Console.WriteLine("3. unlock only blocked users");
+            Console.WriteLine("4. add new account");
+            Console.WriteLine("5. delate account");
+            Console.WriteLine("if you want vies the list of accounts, enter '1'");
+            Console.WriteLine("if you want add new user, enter '2'");
+            int choice = int.Parse(Console.ReadLine());
+            int ListOfAccounts = int.Parse(Console.ReadLine());
+            if (ListOfAccounts == 1)
+               
+                switch (choice)
+                {
+                    case 1:
+
+
+                        {
+                            Accounts(arr);
+                            string back = "";
+                            do
+                            {
+                                Console.WriteLine("\nClick 0 to return to the main menu\n");
+                                back = Console.ReadLine();
+                            }
+                            while (back != "0");
+                        }
+                        break; 
+
+
+                       
+                  
+                    case 2:
+                        {
+                            {
+                                NewUser();
+                                string back = "";
+                                do
+                                {
+                                    Console.WriteLine("\nClick 0 to return to the main menu\n");
+                                    back = Console.ReadLine();
+                                }
+                                while (back != "0");
+                                break;
+                            }
+                        }
+               
+
+
+                }
+        }
