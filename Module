@@ -1,0 +1,331 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MODULE_FIRST_ONE
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[,] Accounts = new string[8, 4]
+            {
+                {" Информация пользователя", "", "", "" },
+                { "Номер ", "Имя ", "Счет",  "Пароль" },
+                { "1234", "Михаил", "0",  "Z107M" },
+                { "5678", "Петр", "1234",  "X4756Q" },
+                { "9101", "Сергей", "100", "67WE" },
+                { "1341", "Антон", "0",  "Z167M" },
+                { "5658", "Олег", "4500",  "X9756Q" },
+                { "9891", "Сергей", "5000", "678E" }
+            };
+
+            while (true)
+            {
+                string NameVerificatioN = NameVerification();
+                string Pass = PassVerification();
+
+                if (NameVerificatioN == "Admin" && Pass == "1953")
+                {
+                    Console.WriteLine("Привет , Admin!");
+                    AdminMenu(ref Accounts);
+                }
+                else if (NameVerificatioN == "User" && Pass != "1953")
+                {
+                    Console.WriteLine("Hello " + NameVerificatioN + " ");
+                    UserMenu(NameVerificatioN, Pass, ref Accounts);
+
+
+
+                }
+                else
+                    Console.WriteLine("Error");
+        }
+    }//ЗЗЗЗЗ
+    public static string NameVerification()
+    {
+        Console.WriteLine("Введите ваше имя");
+        string Name = Console.ReadLine();
+        Console.WriteLine("");
+            return Name;
+    }//PPPPPP
+
+    public static string PassVerification()
+    {
+            Console.WriteLine("Введите пароль");
+            string Password = Console.ReadLine();
+            Console.WriteLine("");
+            return Password;
+        }//PPPP
+
+    public static void AdminMenu(ref string[,] arr)
+    {
+        bool cycle = true;
+        while (cycle == true)
+        {
+            Console.WriteLine("Выберете действие которое хотите совершить, введя его номер ");
+            Console.WriteLine("1. Список пользователей");
+            Console.WriteLine("2. Заблокировать пользователя");
+            Console.WriteLine("3. Разблокировать пользователя");
+            Console.WriteLine("4. Добфвить новый аккаунт");
+            Console.WriteLine("6. Сменить пользователя");
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    {
+                        AccountsList(arr);
+                        Return();
+                        break;
+                    }
+                case 2:
+                    {
+                        BlockUser(ref arr);
+                        Return();
+                        break;
+                    }
+                case 3:
+                    {
+                        ActivateUser(ref arr);
+                        Return();
+                        break;
+                    }
+                case 4:
+                    {
+                        arr = CreateAccount(arr);
+                        Return();
+                        break;
+                    }
+                case 5:
+                    {
+                            if (arr.GetLength(0) == 1)
+                            {
+                                Console.WriteLine("\nПользователь не выявлен\n");
+                                Return();
+                            }
+                        break;
+                    }
+               
+             
+            }
+        }
+
+    }//PPPPP
+
+    public static void UserMenu(string name, string pass, ref string[,] arr)
+    {
+        bool cycle = true;
+        while (cycle == true)
+        {
+            Console.WriteLine("Выберете действие которое хотите совершить, введя его номер");
+            Console.WriteLine("1. Количество денег на счету");
+            Console.WriteLine("2. Количество денег на счету");
+            Console.WriteLine("3. Снять деньги");
+            Console.WriteLine("4. Сменить пользователя");
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    {
+                        string m = UsersMoney(name, pass, arr);
+                        Console.WriteLine(m);
+                        Return();
+                        break;
+                    }
+                case 2:
+                    {
+                        Console.WriteLine("Какое количество денег вы хотите положить на счет?");
+                        int addMoney = int.Parse(Console.ReadLine());
+                        AddMoney(name, pass, addMoney, ref arr);
+                        Return();
+                        break;
+                    }
+                case 3:
+                    {
+                        Console.WriteLine("Какое количество денег вы хотите получить?");
+                        int takeMoney = int.Parse(Console.ReadLine());
+                        TakeMoney(name, pass, takeMoney, ref arr);
+                        Return();
+                        break;
+                    }
+               
+            }
+        }
+
+    }//PPPPPPPPPP
+
+    static void Return()
+    {
+        string back;
+        do
+        {
+            Console.WriteLine("\nНажмите '0' для возврата в главное меню\n");
+            back = Console.ReadLine();
+        }
+        while (back != "0");
+        Console.Clear();
+    } //PPPPPPPPPPPP
+
+    static void AccountsList(string[,] arr)
+    {
+        if (arr.GetLength(0) == 1)
+        {
+            Console.WriteLine("Пользователь не был выявен");
+        }
+        else
+        {
+            Console.WriteLine("Список пользователей:");
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                if (i != 0)
+                    Console.Write(i);
+                else
+                    Console.Write(" ");
+
+                for (int j = 0; j < arr.GetLength(1); j++)
+                {
+                    Console.Write("{0,12}", arr[i, j].Length >= 10 ? " " + arr[i, j].Substring(0, 7) + "... " : " " + arr[i, j].Substring(0, arr[i, j].Length) + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+    }//ЗЗЗЗЗ
+
+    static string[,] CreateAccount(string[,] arr)
+    {
+        string[,] addAccount = new string[arr.GetLength(0) + 1, arr.GetLength(1)];
+        for (int i = 0; i < arr.GetLength(0); i++)
+        {
+            for (int j = 0; j < arr.GetLength(1); j++)
+            {
+                addAccount[i, j] = arr[i, j];
+            }
+        }
+        for (int i = 0; i < arr.GetLength(1); i++)
+        {
+            if (i == 0)
+            {
+                Console.WriteLine("Введите номер нового пользователя");
+                addAccount[arr.GetLength(0), i] = Console.ReadLine();
+            }
+            else if (i == 1)
+            {
+                Console.WriteLine("Вввведите его имя");
+                addAccount[arr.GetLength(0), i] = Console.ReadLine();
+            }
+            else if (i == 2)
+            {
+                Console.WriteLine("Введите код");
+                addAccount[arr.GetLength(0), i] = Console.ReadLine();
+            }
+           
+                
+            
+            else if (i == 4)
+            {
+                Console.WriteLine("\nInput new user's password\n");
+                addAccount[arr.GetLength(0), i] = Console.ReadLine();
+            }
+
+        }
+        Console.WriteLine("\nUser successfully added\n");
+
+        return addAccount;
+    }//ЗЗЗЗЗЗ
+
+    public static void BlockUser(ref string[,] arr)
+    {
+        if (arr.GetLength(0) == 1)
+        {
+            Console.WriteLine("\nНет доступных пользователей\n");
+        }
+        else
+        {
+            int blockUser = 0;
+            Console.WriteLine("\nВыберите пользователя которого хотите заблокировать с помощью его номера");
+            AccountsList(arr);
+            Console.WriteLine("");
+            blockUser = int.Parse(Console.ReadLine());
+            if (arr[blockUser, 3] == "Blocked")
+            {
+                Console.WriteLine("\nПользователь заблокирован");
+            }
+            else
+            {
+                arr[blockUser, 3] = "Blocked";
+                Console.WriteLine("\nПользователь заблокирован");
+            }
+        }
+    }//ЗЗЗЗ
+
+    public static void ActivateUser(ref string[,] arr)
+    {
+        if (arr.GetLength(0) == 1)
+        {
+            Console.WriteLine("Пользователь не выявлен \n");
+        }
+        else
+        {
+            int activateUser = 0;
+            Console.WriteLine("\nВыберите пользователя которого хотите разблокировать с помощью его номера");
+            AccountsList(arr);
+            Console.WriteLine("");
+            activateUser = int.Parse(Console.ReadLine());
+            if (arr[activateUser, 3] == "Active")
+            {
+                Console.WriteLine("\nПользователь активен");
+            }
+            else
+            {
+                arr[activateUser, 3] = "Active";
+                Console.WriteLine("\nПользователь разблокирован");
+            }
+        }
+    }//ЗЗЗЗЗ
+
+    public static string UsersMoney(string name, string pass, string[,] arr)
+    {
+        string money = null;
+        for (int i = 0; i < arr.GetLength(0); i++)
+        {
+            if (arr[i, 1] == name && arr[i, 4] == pass)
+            {
+                money = arr[i, 2];
+            }
+        }
+        return money;
+    }
+
+    public static void AddMoney(string name, string pass, int moneyAdd, ref string[,] arr)
+    {
+        int newMoney = 0;
+        for (int i = 0; i < arr.GetLength(0); i++)
+        {
+            if (arr[i, 1] == name && arr[i, 4] == pass)
+            {
+                newMoney = (int.Parse(arr[i, 2]) + moneyAdd);
+                arr[i, 2] = Convert.ToString(newMoney);
+            }
+        }
+        Console.WriteLine("Деньги положены на ваш счет");
+    }
+
+    public static void TakeMoney(string name, string pass, int moneyTake,  ref string[,] arr)
+    {
+        int newMoney = 0;
+        for (int mas = 0; mas < arr.GetLength(0); mas++)
+        {
+            if (arr[mas, 1] == name && arr[mas, 4] == pass)
+            {
+                newMoney = (int.Parse(arr[mas, 2]) - moneyTake);
+                arr[mas, 2] = Convert.ToString(newMoney);
+            }
+        }
+        Console.WriteLine("Деньгу начислены на ваш счет");
+            
+    }
+}
+}
